@@ -1,10 +1,18 @@
 const URL = "http://localhost:8080/api/user";
 
-$(".nav-pills .nav-link").click(function() {
+const tabLoginRegister = () => {
     $(".nav-pills .nav-link").each(function() {
         $(this).toggleClass("nav-active");
-    })
-});
+    });
+}
+
+const clickSwitchTab = () => {
+    tabLoginRegister();
+    $(".tab-pane").each(function() {
+        $(this).toggleClass("show active");
+    });
+    $(".nav-pills .nav-link").removeClass("active");
+}
 
 const showMessage = (title, body, error) => {
     $("#titleMessage").html(title);
@@ -24,13 +32,28 @@ const showMessage = (title, body, error) => {
     $("#myToast").toast("show");
 }
 
-$("#btnLogin").click(() => {
-    if ($.trim($("#loginEmail").val().length === 0) && $.trim($("#loginPassword").val().length === 0)) {
+const clearFields = () => {
+    $("#loginEmail").val("");
+    $("#loginPassword").val("");
+    $("#registerName").val("");
+    $("#registerEmail").val("");
+    $("#registerPassword").val("");
+    $("#registerPasswordConfirmation").val("");
+}
+
+$("#btnLogin").click((e) => {
+    e.preventDefault();
+    const email = $.trim($("#loginEmail").val());
+    const password = $.trim($("#loginPassword").val());
+    console.log(email.length === 0 || password.length === 0)
+    if (email.length === 0 || password.length === 0) {
         showMessage("Error", "All fields are required", true);
         return;
     }
-    const email = $("#loginEmail").val();
-    const password = $("#loginPassword").val();
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
+        showMessage("Error", "Please enter a valid email address", true);
+        return;
+    }    
     $.ajax({
         url: `${URL}/${email}/${password}`,
         type: "GET",
@@ -39,33 +62,40 @@ $("#btnLogin").click(() => {
             if (response.id === null){
                 showMessage("Error", "Wrong user and/or password", true);
             }else {
-                showMessage("Confirmation", "Login successfully");
+                showMessage("Confirmation", `Welcome ${response.name}`);
+                clearFields();
             }
         }
     })
 })
 
-$("#btnRegister").click(async () => {
-    if ($.trim($("#registerName").val()) === "" 
-        || $.trim($("#registerEmail").val()) === "" 
-        || $.trim($("#registerPassword").val()) === "" 
-        || $.trim($("##registerPasswordConfirmation").val())) {
-            showMessage("Error", "All fields are required", true);
-            return;
-        }
-    if ($.trim($("#registerName").val()).length > 80) {
+$("#btnRegister").click(async (e) => {
+    e.preventDefault();
+    const name = $.trim($("#registerName").val());
+    const email = $.trim($("#registerEmail").val());
+    const password = $.trim($("#registerPassword").val());
+    const passwordConfirmation = $.trim($("#registerPasswordConfirmation").val());
+    if (name.length === 0 || email.length === 0 || password.length === 0 || passwordConfirmation.length === 0)  {
+        showMessage("Error", "All fields are required", true);
+        return;
+    }
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
+        showMessage("Error", "Please enter a valid email address", true);
+        return;
+    }
+    if (name.length > 80) {
         showMessage("Error", "Name must not exceed 80 characters", true);
         return;
     }
-    if ($.trim($("#registerEmail").val()).length > 50) {
+    if (email.length > 50) {
         showMessage("Error", "Email must not exceed 50 characters", true);
         return;
     }
-    if ($.trim($("#registerPassword").val()).length > 50) {
+    if (password.length > 50) {
         showMessage("Error", "Password must not exceed 50 characters", true);
         return;
     }
-    if ($.trim($("#registerPassword").val()) !== "" && $.trim($("#registerPasswordConfirmation").value)){
+    if (password !== passwordConfirmation){
         showMessage("Error", "Those passwords didn't match", true)
         return;
     }
@@ -77,10 +107,7 @@ $("#btnRegister").click(async () => {
     if (isEmail){
         showMessage("Error", "Email already exists", true)
         return;
-    }
-    const name = $("#registerName").val();
-    const email = $("#registerEmail").val();
-    const password = $("#registerPassword").val();    
+    }    
     const data = {
         name: name,
         email: email,
@@ -95,7 +122,11 @@ $("#btnRegister").click(async () => {
         },
         data: JSON.stringify(data),
         success: function(){
-             showMessage("Confirmation", "Registration successful")
+            showMessage("Confirmation", "Acount created successfully");
+            clearFields();
+        },
+        error: function(){
+            showMessage("Error", "It was not possible to create the account", true);
         }
 
     })

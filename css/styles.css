@@ -62,6 +62,26 @@ body {
     background-color: var(--background-color-black) !important;
 }
 
+.nav-pills > .nav-item .nav-link:hover:not(.nav-active) {
+    color: var(--text-color-secondary) !important;
+}
+
+.toast__container {
+    max-width: 20rem;
+}
+
+.tab-panel__link:hover {
+    color: var(--text-color-head-footer) !important;
+    border-top: 1px solid var(--background-color-black);
+    border-bottom: 1px solid var(--background-color-black);
+}
+
+@media  (max-width: 280px){
+    .toast__container {
+        max-width: 15rem;
+    }    
+}
+
 /* ============== FOOTER ================== */
 
 .footer {
