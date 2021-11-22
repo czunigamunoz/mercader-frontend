@@ -4,7 +4,8 @@
     --text-color-head-footer: #f25f4c;
     --text-color-primary: #fffffe;
     --text-color-secondary: #0f0e17;
-    --text-color-hover: #ff8906;
+    --btn-color: #ff8906;
+    --btn-color-hover: #ff8906;
     --text-font-weight: bold;
 }
 
@@ -42,20 +43,23 @@ body {
 .content {
     background-color: var(--background-color-black);
     color: var(--text-color-primary);
-    height: 85.7vh;
+    height: 86.5vh;
+
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.form {
+.content__login {
     background-color: var(--background-color-light);
+    color: var(--text-color-secondary);
     padding: 2em;
-    max-width: 50rem !important;
+    border-radius: 0.5em;   
 }
 
-.form label {
-    color: var(--text-color-secondary);
+.nav-active{
+    background-color: var(--background-color-black) !important;
 }
 
 /* ============== FOOTER ================== */
