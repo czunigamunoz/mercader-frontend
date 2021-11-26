@@ -1,4 +1,4 @@
-const URL = "http://localhost:8080/api/user";
+const URL = "http://150.230.81.157:8080/api/user";
 
 const tabLoginRegister = () => {
     $(".nav-pills .nav-link").each(function() {
@@ -45,7 +45,6 @@ $("#btnLogin").click((e) => {
     e.preventDefault();
     const email = $.trim($("#loginEmail").val());
     const password = $.trim($("#loginPassword").val());
-    console.log(email.length === 0 || password.length === 0)
     if (email.length === 0 || password.length === 0) {
         showMessage("Error", "All fields are required", true);
         return;
