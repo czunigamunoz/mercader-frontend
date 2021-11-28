@@ -1,64 +1,3 @@
-class AjaxRequestHandler{    
-    URL = "http://localhost:8080/api/user";
-    DATATYPE = "json";
-    constructor(){   
-    }
-
-    connectGet = (path) => {
-        return $.ajax({
-            url: this.URL + path,
-            type: "GET",
-            dataType: this.DATATYPE
-        })
-    }
-
-    connectPost = (path, data) => {
-        return $.ajax({
-            url: this.URL + path,
-            type: "POST",
-            dataType: this.DATATYPE,
-            headers: {
-                "Content-Type": "application/json"
-            },
-            data: JSON.stringify(data)         
-        })
-    }
-}
-
-const ajaxHandler = new AjaxRequestHandler();
-
-const tabLoginRegister = () => {
-    $(".nav-pills .nav-link").each(function() {
-        $(this).toggleClass("nav-active");
-    });
-}
-
-const clickSwitchTab = () => {
-    tabLoginRegister();
-    $(".tab-pane").each(function() {
-        $(this).toggleClass("show active");
-    });
-    $(".nav-pills .nav-link").removeClass("active");
-}
-
-const showMessage = (title, body, error) => {
-    $("#titleMessage").html(title);
-    $("#bodyMessage").html(body);
-    $("#titleMessage").removeClass();
-    $("#bodyMessage").removeClass();
-    $("#myToast").removeClass();
-    if (error) {
-        $("#titleMessage").addClass("text-danger");
-        $("#bodyMessage").addClass("text-white");
-        $("#myToast").addClass("toast bg-danger")
-    } else {
-        $("#titleMessage").addClass("text-success");
-        $("#bodyMessage").addClass("text-white");
-        $("#myToast").addClass("toast text-white bg-success")
-    }
-    $("#myToast").toast("show");
-}
-
 const clearFields = () => {
     $("#loginEmail").val("");
     $("#loginPassword").val("");
@@ -86,21 +25,7 @@ $("#btnLogin").click(async (e) => {
     }else {
         showMessage("Confirmation", `Welcome ${resp.name}`);
         clearFields();
-    }    
-    console.log(resp)
-    // $.ajax({
-    //     url: `${URL}/${email}/${password}`,
-    //     type: "GET",
-    //     dataType: "json",
-    //     success: function(response) {
-    //         if (response.id === null){
-    //             showMessage("Error", "Wrong user and/or password", true);
-    //         }else {
-    //             showMessage("Confirmation", `Welcome ${response.name}`);
-    //             clearFields();
-    //         }
-    //     }
-    // })
+    }
 })
 
 $("#btnRegister").click(async (e) => {
@@ -134,11 +59,6 @@ $("#btnRegister").click(async (e) => {
         return;
     }
     const isEmail = await ajaxHandler.connectGet(`/${$("#registerEmail").val()}`)
-    // const isEmail = await $.ajax({
-    //     url: `http://localhost:8080/api/user/${$("#registerEmail").val()}`,
-    //     type: "GET",
-    //     dataType: "json"
-    // });
     if (isEmail){
         showMessage("Error", "Email already exists", true)
         return;
@@ -154,23 +74,5 @@ $("#btnRegister").click(async (e) => {
     }else {
         showMessage("Confirmation", "Acount created successfully");
         clearFields();
-    }    
-    console.log(resp)
-    // $.ajax({
-    //     url: "http://localhost:8080/api/user"+"/new",
-    //     type: "POST",
-    //     dataType: "json",
-    //     headers: {
-    //         "Content-Type": "application/json"
-    //     },
-    //     data: JSON.stringify(data),
-    //     success: function(){
-    //         showMessage("Confirmation", "Acount created successfully");
-    //         clearFields();
-    //     },
-    //     error: function(){
-    //         showMessage("Error", "It was not possible to create the account", true);
-    //     }
-
-    // })
+    }
 })
