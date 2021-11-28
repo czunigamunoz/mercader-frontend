@@ -1,4 +1,31 @@
-const URL = "http://150.230.81.157:8080/api/user";
+class AjaxRequestHandler{    
+    URL = "http://localhost:8080/api/user";
+    DATATYPE = "json";
+    constructor(){   
+    }
+
+    connectGet = (path) => {
+        return $.ajax({
+            url: this.URL + path,
+            type: "GET",
+            dataType: this.DATATYPE
+        })
+    }
+
+    connectPost = (path, data) => {
+        return $.ajax({
+            url: this.URL + path,
+            type: "POST",
+            dataType: this.DATATYPE,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify(data)         
+        })
+    }
+}
+
+const ajaxHandler = new AjaxRequestHandler();
 
 const tabLoginRegister = () => {
     $(".nav-pills .nav-link").each(function() {
@@ -41,7 +68,7 @@ const clearFields = () => {
     $("#registerPasswordConfirmation").val("");
 }
 
-$("#btnLogin").click((e) => {
+$("#btnLogin").click(async (e) => {
     e.preventDefault();
     const email = $.trim($("#loginEmail").val());
     const password = $.trim($("#loginPassword").val());
@@ -52,20 +79,28 @@ $("#btnLogin").click((e) => {
     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
         showMessage("Error", "Please enter a valid email address", true);
         return;
+    }
+    const resp = await ajaxHandler.connectGet(`/${email}/${password}`);
+    if (resp.id === null){
+        showMessage("Error", "Wrong user and/or password", true);
+    }else {
+        showMessage("Confirmation", `Welcome ${resp.name}`);
+        clearFields();
     }    
-    $.ajax({
-        url: `${URL}/${email}/${password}`,
-        type: "GET",
-        dataType: "json",
-        success: function(response) {
-            if (response.id === null){
-                showMessage("Error", "Wrong user and/or password", true);
-            }else {
-                showMessage("Confirmation", `Welcome ${response.name}`);
-                clearFields();
-            }
-        }
-    })
+    console.log(resp)
+    // $.ajax({
+    //     url: `${URL}/${email}/${password}`,
+    //     type: "GET",
+    //     dataType: "json",
+    //     success: function(response) {
+    //         if (response.id === null){
+    //             showMessage("Error", "Wrong user and/or password", true);
+    //         }else {
+    //             showMessage("Confirmation", `Welcome ${response.name}`);
+    //             clearFields();
+    //         }
+    //     }
+    // })
 })
 
 $("#btnRegister").click(async (e) => {
@@ -98,11 +133,12 @@ $("#btnRegister").click(async (e) => {
         showMessage("Error", "Those passwords didn't match", true)
         return;
     }
-    const isEmail = await $.ajax({
-        url: `${URL}/${$("#registerEmail").val()}`,
-        type: "GET",
-        dataType: "json"
-    });
+    const isEmail = await ajaxHandler.connectGet(`/${$("#registerEmail").val()}`)
+    // const isEmail = await $.ajax({
+    //     url: `http://localhost:8080/api/user/${$("#registerEmail").val()}`,
+    //     type: "GET",
+    //     dataType: "json"
+    // });
     if (isEmail){
         showMessage("Error", "Email already exists", true)
         return;
@@ -112,21 +148,29 @@ $("#btnRegister").click(async (e) => {
         email: email,
         password: password,
     }
-    $.ajax({
-        url: `${URL}/new`,
-        type: "POST",
-        dataType: "json",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        data: JSON.stringify(data),
-        success: function(){
-            showMessage("Confirmation", "Acount created successfully");
-            clearFields();
-        },
-        error: function(){
-            showMessage("Error", "It was not possible to create the account", true);
-        }
+    const resp = await ajaxHandler.connectPost("/new", data);
+    if (resp.id === null){
+        showMessage("Error", "It was not possible to create the account", true);
+    }else {
+        showMessage("Confirmation", "Acount created successfully");
+        clearFields();
+    }    
+    console.log(resp)
+    // $.ajax({
+    //     url: "http://localhost:8080/api/user"+"/new",
+    //     type: "POST",
+    //     dataType: "json",
+    //     headers: {
+    //         "Content-Type": "application/json"
+    //     },
+    //     data: JSON.stringify(data),
+    //     success: function(){
+    //         showMessage("Confirmation", "Acount created successfully");
+    //         clearFields();
+    //     },
+    //     error: function(){
+    //         showMessage("Error", "It was not possible to create the account", true);
+    //     }
 
-    })
+    // })
 })
