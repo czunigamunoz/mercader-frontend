@@ -20,7 +20,7 @@ $("#btnRegister").click(async (e) => {
     const zone = $.trim($("#registerZone").val());
     const type = $.trim($("#registerType").val());
     const data = {
-        id: 1,
+        id: null,
         identification,
         name,
         address,
