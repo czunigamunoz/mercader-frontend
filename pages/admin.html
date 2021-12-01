@@ -1,48 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" crossorigin="anonymous" rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin.css">
     <title>Dashboard Mercader LTDA</title>
 </head>
+
 <body>
 
     <div class="container">
 
-        <section class="navigation">
+        <!--  ASIDE START   -->
+        <aside>
+            <section class="top">
 
-            <ul class="navbar">
+                <div class="logo">
+                    <img src="../img/logo.webp" alt="logo">
+                    <h2 class="text-dark">ERC<span class="text-blue">ADER</span></h2>
+                </div>
 
-                <li class="nabvar__item">
-                    <a href="./admin.html" aria-label="Home">
-                        <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-                        <span class="title">Home</span>
-                    </a>
-                </li>
+                <div class="close" id="btnClose">
+                    <span class="material-icons-sharp">close</span>
 
-                <li class="nabvar__item">
-                    <a href="./admin.html" aria-label="Home">
-                        <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
-                        <span class="title">Users</span>
-                    </a>
-                </li>
+                </div>
+            </section>
 
-                <li class="nabvar__item">
-                    <a href="./admin.html" aria-label="Home">
-                        <span class="icon"><ion-icon name="cube-outline"></ion-icon></span>
-                        <span class="title">Products</span>
-                    </a>
-                </li>
+            <section class="sidebar">
 
-            </ul>
+                <a href="#" class="active">
+                    <span class="material-icons-sharp">grid_view</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">people</span>
+                    <h3>Users</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">inventory</span>
+                    <h3>Products</h3>
+                </a>
+                <a href="../index.html">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
+                </a>
 
-        </section>
+            </section>
+
+        </aside>
+        <!--  ASIDE END -->
+
+        <main>
+
+            <section>
+
+                <div class="open" id="btnMenu">
+                    <span class="material-icons-sharp">menu</span>
+                </div>
+
+                <h1>Dashboard</h1>
+
+                <div class="content">
+
+                    <div class="search-box">
+                        <input type="search" id="search-box" placeholder="Search..." autocomplete="off">
+                    </div>
+
+
+                    <button type="button" id="btnAddUser">Add User</button>
+
+                    <div class="container__table">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Identification</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Zone</th>
+                                    <th>Role</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="table-content" id="tableContent">
+
+                                <tr>
+                                    <td>12345678</td>
+                                    <td>Calors</td>
+                                    <td>Calle 2</td>
+                                    <td>321321321</td>
+                                    <td>nombre@correo.com</td>
+                                    <td>Zone 1</td>
+                                    <td>ADMIN</td>
+                                    <td>
+                                        <span class="material-icons-sharp warning">edit</span>
+                                    </td>
+                                    <td>                                        
+                                        <span class="material-icons-sharp danger">delete</span>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+        </main>
 
     </div>
 
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js" crossorigin="anonymous"></script>
-    
+    <script src="../js/admin.js"></script>
+
 </body>
+
 </html>
