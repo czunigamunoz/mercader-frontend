@@ -25,8 +25,8 @@
 
                 <div class="close" id="btnClose">
                     <span class="material-icons-sharp">close</span>
-
                 </div>
+
             </section>
 
             <section class="sidebar">
@@ -72,9 +72,9 @@
 
                     <button type="button" id="btnAddUser">Add User</button>
 
-                    <div class="container__table">
+                    <div class="table__container">
 
-                        <table>
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Identification</th>
@@ -92,17 +92,49 @@
                             <tbody class="table-content" id="tableContent">
 
                                 <tr>
-                                    <td>12345678</td>
-                                    <td>Calors</td>
-                                    <td>Calle 2</td>
-                                    <td>321321321</td>
-                                    <td>nombre@correo.com</td>
-                                    <td>Zone 1</td>
-                                    <td>ADMIN</td>
-                                    <td>
+                                    <td data-label="Identification">12345678</td>
+                                    <td data-label="Name">Carlos</td>
+                                    <td data-label="Address">Calle 2</td>
+                                    <td data-label="Phone">321321321</td>
+                                    <td data-label="Email">carlos@correo.com</td>
+                                    <td data-label="Zone">Zone 1</td>
+                                    <td data-label="Role">ADMIN</td>
+                                    <td data-label="Edit">
                                         <span class="material-icons-sharp warning">edit</span>
                                     </td>
-                                    <td>                                        
+                                    <td data-label="Delete">                                        
+                                        <span class="material-icons-sharp danger">delete</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td data-label="Identification">98765432</td>
+                                    <td data-label="Name">Valentina</td>
+                                    <td data-label="Address">Calle 3</td>
+                                    <td data-label="Phone">321321321</td>
+                                    <td data-label="Email">valentina@correo.com</td>
+                                    <td data-label="Zone">Zone 1</td>
+                                    <td data-label="Role">ADMIN</td>
+                                    <td data-label="Edit">
+                                        <span class="material-icons-sharp warning">edit</span>
+                                    </td>
+                                    <td data-label="Delete">                                        
+                                        <span class="material-icons-sharp danger">delete</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td data-label="Identification">546345322</td>
+                                    <td data-label="Name">Juan</td>
+                                    <td data-label="Address">Calle 4</td>
+                                    <td data-label="Phone">321321321</td>
+                                    <td data-label="Email">juan@correo.com</td>
+                                    <td data-label="Zone">Zone 1</td>
+                                    <td data-label="Role">ADMIN</td>
+                                    <td data-label="Edit">
+                                        <span class="material-icons-sharp warning">edit</span>
+                                    </td>
+                                    <td data-label="Delete">                                        
                                         <span class="material-icons-sharp danger">delete</span>
                                     </td>
                                 </tr>
@@ -121,6 +153,61 @@
         </main>
 
     </div>
+
+    <!-------------- MODAL ------------------------>
+    <div class="modal">
+
+        <div class="modal__container">
+
+            <div class="modal__close" id="btnCloseModal">
+                <span class="material-icons-sharp">close</span>
+            </div>
+
+            <form>
+
+                <div class="form__input">
+                    <label for="identification">Identification</label>
+                    <input type="text" name="identification" id="identification">
+                </div>
+
+                <div class="form__input">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name">
+                </div>
+
+                <div class="form__input">
+                    <label for="address">Address</label>
+                    <input type="text" name="address" id="address">
+                </div>
+
+                <div class="form__input">
+                    <label for="phone">Phone</label>
+                    <input type="text" name="phone" id="phone">
+                </div>
+
+                <div class="form__input">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email">
+                </div>
+
+                <div class="form__input">
+                    <label for="zone">Zone</label>
+                    <input type="text" name="zone" id="zone">
+                </div>
+
+                <div class="form__input">
+                    <label for="role">Role</label>
+                    <select name="role" id="role"></select>
+                </div>
+
+                <button type="button">Register</button>
+                
+            </form>
+
+        </div>
+
+    </div>
+
 
     <script src="../js/admin.js"></script>
 
