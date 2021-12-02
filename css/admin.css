@@ -278,6 +278,93 @@ main .table__container {
   padding: 0.5rem;
 }
 
+.table tbody tr td img {
+  height: 3rem;
+  width: 3rem;
+  margin: auto;
+}
+
+
+/* ==================== MODAL============================ */
+
+.modal {
+  background-color: #111111bd;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+
+.modal--active {
+  opacity: 1;
+  pointer-events: unset;
+  transition: opacity 0.5s;
+}
+
+.modal__container {
+  margin: auto;
+  width: 90%;
+  max-width: 37.5rem;
+  max-height: 90%;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 3em 2.5em;
+  display: grid;
+  gap: 1em;
+  place-items: center;
+  grid-auto-columns: 100%;
+  position: relative;
+}
+
+.modal__close {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  cursor: pointer;
+}
+
+.icon_add {
+  font-size: 5rem;
+}
+
+.modal__container form {
+  width: 60%;
+}
+
+.form__input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.form__input input,
+.form__input select {
+  height: 1.8rem;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  border: 2px solid var(--color-blue-dark);
+}
+
+.form__input select {
+  margin: 0;
+  padding: 0;
+  padding-left: 0.2rem;
+}
+
+.modal__container form button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: var(--color-blue-dark);
+  color: var(--color-light);
+  border-radius: 0.5em;
+}
+
 /* ==================== MEDIA QUERRIES ============================ */
 
 @media screen and (max-width: 1200px) {
@@ -330,6 +417,10 @@ main .table__container {
     .table thead tr th {
       font-weight: 200;
     }
+
+    .modal__container form {
+      width: 80%;
+    }
 }
 
 @media screen and (max-width: 992px){
@@ -380,8 +471,15 @@ main .table__container {
     left: 1em;
     font-weight: 600;
   }
-}
 
+  .modal__container form {
+    width: 100%;
+  }
+
+  .table tbody tr td img {
+    margin-right: 0;
+  }
+}
 
 @media screen and (max-width: 800px){
     .container {
@@ -439,47 +537,9 @@ main .table__container {
     .open {
         display: inline;
     }
-}
 
-/* ==================== MODAL============================ */
-
-.modal {
-  background-color: #111111bd;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-}
-
-.modal__container {
-  margin: auto;
-  width: 90%;
-  max-width: 37.5rem;
-  max-height: 90%;
-  background-color: #fff;
-  border-radius: 0.5rem;
-  padding: 3em 2.5em;
-  display: grid;
-  gap: 1em;
-  place-items: center;
-  grid-auto-columns: 100%;
-  position: relative;
-}
-
-.modal__close {
-  position: absolute;
-  top: 1em;
-  right: 1em;
-}
-
-.modal__container form {
-  width: 60%;
-}
-
-.form__input {
-  display: flex;
-  flex-direction: column;
+    .modal__container form {
+      padding: 0;
+    }
 }
 

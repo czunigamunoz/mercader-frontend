@@ -1,40 +1,36 @@
-const clearFields = () => {
-    $("#loginEmail").val("");
-    $("#loginPassword").val("");
-}
+/* GLOBAL VARIABLES */
+const URL = "http://localhost:8080/api/user";
+const email = document.getElementById("loginEmail");
+const password = document.getElementById("loginPassword");
+const formInputs = document.querySelectorAll(".form__input");
+const btnLogin = document.getElementById("btnLogin");
 
-$('.form__input').each(function () {
-    $(this).focus(function () {
-        $(this).next().addClass("active");
-})});
+formInputs.forEach(function (inputs) {
+    inputs.addEventListener("focus", function(e){
+        e.target.nextElementSibling.classList.add("active");        
+    });
+    inputs.addEventListener("focusout", function(e){
+        if (!e.target.value) e.target.nextElementSibling.classList.remove("active");        
+    });
+});
 
-$('.form__input').each(function () {
-    $(this).focusout(function () {
-        if(!$(this).val()) $(this).next().removeClass("active");
-})});
-
-$("#btnLogin").click(async (e) => {
-    e.preventDefault();
-    const email = $.trim($("#loginEmail").val());
-    const password = $.trim($("#loginPassword").val());
-    console.table(email, password);
-    if (email.length === 0 || password.length === 0) {
-        alert("All fields are required")
-        // showMessage("Error", "All fields are required", true);
+btnLogin.addEventListener("click", async () => {
+    if (email.value.length === 0 || password.value.length === 0) {
+        swalHandler("!Error", "error", "All fields are required", true, "#DC143C");
         return;
     }
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))){
-        alert("Please enter a valid email address")
-        // showMessage("Error", "Please enter a valid email address", true);
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value))){
+        swalHandler("!Error", "error", "Please enter a valid email address", true, "#DC143C");
         return;
     }
-    const resp = await ajaxHandler.connectGet(`/${email}/${password}`);
+    const resp = await ajaxHandler.connectGet(`${URL}/${email.value}/${password.value}`);
     if (resp.id === null){
-        alert("Wrong user and/or password")
-        // showMessage("Error", "Wrong user and/or password", true);
-    }else {
-        alert("Confirmation")
-        // showMessage("Confirmation", `Welcome ${resp.name}`);
-        clearFields();
+        swalHandler("!Error", "error", "Wrong user and/or password", true, "#DC143C");
+        return;
     }
+    swalHandler("", "success", `Welcome ${resp.name}`, false, "", 1500);
+    setTimeout(() => {
+        window.location.href = "../pages/admin.html";
+        return;
+    }, 1500);    
 });
