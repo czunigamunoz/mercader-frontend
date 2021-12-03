@@ -22,9 +22,7 @@ class AjaxRequestHandler{
                 url,
                 type: "POST",
                 dataType: "json",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data)         
             });
             return resp;            
@@ -32,6 +30,22 @@ class AjaxRequestHandler{
             console.error(error);
             return null; 
         }  
+    }
+
+    connectUpdate = async (url, data) => {
+        try {
+            const resp = await $.ajax({
+                url,
+                type: "PUT",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data)         
+            });
+            return resp;            
+        } catch (error) {
+            console.error(error);
+            return null; 
+        } 
     }
 
     connectDelete = async (url) => {

@@ -1,5 +1,6 @@
-// URL API
+// GLOBAL VARIABLES
 const URL = "http://localhost:8080/api/user";
+let ID_USER = null;
 
 // USER INFORMATION ==========================
 const identificationUser = document.getElementById("identification");
@@ -13,7 +14,6 @@ const typeUser = document.getElementById("type");
 
 // DOM ELEMENTS
 const modal = document.querySelector(".modal");
-const formModal = document.getElementById("formModal");
 
 // BUTTONS ====================================
 const btnCloseModal = document.getElementById("btnCloseModal");
@@ -22,60 +22,12 @@ const btnSave = document.getElementById("btnSave");
 
 btnAddUser.addEventListener("click", () => modal.classList.add("modal--active"));
 
-btnCloseModal.addEventListener("click", () => modal.classList.remove("modal--active"));
+btnCloseModal.addEventListener("click", () => {
+    clearFields();
+    modal.classList.remove("modal--active");
+});
 
-const modalUser = () => {
-    const {identification, name, address, cellPhone, email, password, zone, type} = getFieldsInfo();
-    formModal += 
-    `   
-    <div class="form__input">
-    <label for="identification">Identification</label>
-    <input type="text" name="identification" id="identification">
-    </div>
-
-    <div class="form__input">
-        <label for="name">Name</label>
-        <input type="text" name="name" id="name">
-    </div>
-
-    <div class="form__input">
-        <label for="address">Address</label>
-        <input type="text" name="address" id="address">
-    </div>
-
-    <div class="form__input">
-        <label for="phone">Phone</label>
-        <input type="text" name="phone" id="phone">
-    </div>
-
-    <div class="form__input">
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email">
-    </div>
-
-    <div class="form__input">
-        <label for="password">Password</label>
-        <input type="text" name="password" id="password">
-    </div>
-
-    <div class="form__input">
-        <label for="zone">Zone</label>
-        <input type="text" name="zone" id="zone">
-    </div>
-
-    <div class="form__input">
-        <label for="type" data-label="Select rol">Select rol</label></label>
-        <select name="type" id="type">
-            <option value="">Select one option</option>
-            <option value="ADM">Administrator</option>
-            <option value="COORD">Coordinator</option>
-            <option value="ASE">Sales Advisor</option>
-        </select>
-    </div>
-
-    <button id="btnSave" type="button">Save</button>
-    `
-}
+btnSave.addEventListener("click", () => saveUser());
 
 const clearFields = () => {
     identificationUser.value = "";
@@ -89,26 +41,32 @@ const clearFields = () => {
 }
 
 const getFieldsInfo = () => {
-    const identification = identificationUser.value;
-    const name = nameUser.value;
-    const address = addressUser.value;
-    const cellPhone = phoneUser.value;
-    const email = emailUser.value;
-    const password = passwordUser.value;
-    const zone = zoneUser.value;    
-    const type = typeUser.value;
-    return identification, name, address, cellPhone, email, password, zone, type;
+    const user = {
+        identification: identificationUser.value,
+        name: nameUser.value,
+        address: addressUser.value,
+        cellPhone: phoneUser.value,
+        email: emailUser.value,
+        password: passwordUser.value,
+        zone: zoneUser.value,   
+        type: typeUser.value,
+    }
+    return user;
 }
 
-btnSave.addEventListener("click", async () => {
-    const identification = identificationUser.value;
-    const name = nameUser.value;
-    const address = addressUser.value;
-    const cellPhone = phoneUser.value;
-    const email = emailUser.value;
-    const password = passwordUser.value;
-    const zone = zoneUser.value;    
-    const type = typeUser.value;
+const setFieldsInfo = (user) => {
+    identificationUser.value = user.identification;
+    nameUser.value = user.name;
+    addressUser.value = user.address;
+    phoneUser.value = user.cellPhone;
+    emailUser.value = user.email;
+    passwordUser.value = user.password;
+    zoneUser.value = user.zone;
+    typeUser.value = user.type;
+}
+
+const saveUser = async () => {
+    const { identification, name, address, cellPhone, email, password, zone, type } = getFieldsInfo();
 
     if (name.length === 0 || email.length === 0 || password.length === 0)  {
         swalHandler("!Error", "error", "All fields are required", true, "#DC143C");
@@ -130,14 +88,19 @@ btnSave.addEventListener("click", async () => {
         swalHandler("!Error", "error", "assword must not exceed 50 characters", true, "#DC143C");
         return;
     }
-    const isEmail = await ajaxHandler.connectGet(`${URL}/emailexist/${email}`);
-    if (isEmail){
-        swalHandler("!Error", "error", "Email already exists", true, "#DC143C");
-        return;
+    
+    let id;
+    if (!!ID_USER){
+        id = ID_USER;      
+    } else {        
+        const isEmail = await ajaxHandler.connectGet(`${URL}/emailexist/${email}`);
+        if (isEmail){
+            swalHandler("!Error", "error", "Email already exists", true, "#DC143C");
+            return;
+        }
+        const users = await ajaxHandler.connectGet(`${URL}/all`);
+        id = users.length > 0 ? users.at(-1).id+1 : 1;
     }
-
-    const users = await ajaxHandler.connectGet(`${URL}/all`);
-    const id = users.length > 0 ? users.at(-1).id+1 : 1;
 
     const data = {
         id,
@@ -150,19 +113,24 @@ btnSave.addEventListener("click", async () => {
         zone,
         type
     }
-    const resp = await ajaxHandler.connectPost(`${URL}/new`, data);
+    const resp = !!ID_USER ? await ajaxHandler.connectUpdate(`${URL}/update`, data) : await ajaxHandler.connectPost(`${URL}/new`, data)
     if (resp.id === null){
-        swalHandler("!Error", "error", "It was not possible to create the account", true, "#DC143C");
+        swalHandler("!Error", "error", "It was not possible to create user", true, "#DC143C");
         return;
     }
-    swalHandler("", "success", "Acount created successfully", false, "", 1500);
+    const message = !!ID_USER ? "USer updated successfully" : "User created successfully";
+    ID_USER = null;
+    swalHandler("", "success", message, false, "", 1500);
     clearFields();
     getUsers();
-});
+    modal.classList.remove("modal--active");
+}
 
-const updateUser = (id) => {
-    const {identification, name, address, cellPhone, email, password, zone, type} = getFieldsInfo();
-    console.log({identification, name, address, cellPhone, email, password, zone, type})
+const updateUser = async (id) => {
+    const user = await ajaxHandler.connectGet(`${URL}/${id}`);
+    setFieldsInfo(user);
+    ID_USER = id;    
+    modal.classList.add("modal--active");
 }
 
 const deleteUser = async (id) => {
@@ -170,9 +138,9 @@ const deleteUser = async (id) => {
     if (!isConfirmed){
         return;
     }
-    const user = await ajaxHandler.connectDelete(`${URL}/${id}`);
+    await ajaxHandler.connectDelete(`${URL}/${id}`);
     getUsers();
-    swalHandler("", "success", "Acount eliminated successfully", false, "", 1500);
+    swalHandler("", "success", "User eliminated successfully", false, "", 1500);
 }
 
 const getUsers = async () => {
@@ -192,7 +160,7 @@ const getUsers = async () => {
                 <td data-label="Phone">${user.cellPhone}</td>
                 <td data-label="Email">${user.email}</td>
                 <td data-label="Zone">${user.zone}</td>
-                <td data-label="Role">${user.role}</td>
+                <td data-label="Role">${user.type}</td>
                 <td data-label="Edit">
                     <span role="button" class="material-icons-sharp warning" onclick="updateUser(${user.id})">edit</span>
                 </td>
