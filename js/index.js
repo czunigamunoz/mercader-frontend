@@ -25,7 +25,7 @@ btnLogin.addEventListener("click", async () => {
     }
     const resp = await ajaxHandler.connectGet(`${URL}/${email.value}/${password.value}`);
     if (resp.id === null){
-        swalHandler("!Error", "error", "Wrong user and/or password", true, "#DC143C");
+        swalHandler("!Error", "error", "There is no user with these credentials", true, "#DC143C");
         return;
     }
     swalHandler("", "success", `Welcome ${resp.name}`, false, "", 1500);

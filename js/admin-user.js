@@ -23,6 +23,7 @@ const btnSave = document.getElementById("btnSave");
 btnAddUser.addEventListener("click", () => modal.classList.add("modal--active"));
 
 btnCloseModal.addEventListener("click", () => {
+    ID_USER = null;
     clearFields();
     modal.classList.remove("modal--active");
 });
@@ -156,11 +157,9 @@ const getUsers = async () => {
             <tr>
                 <td data-label="Identification">${user.identification}</td>
                 <td data-label="Name">${user.name}</td>
-                <td data-label="Address">${user.address}</td>
-                <td data-label="Phone">${user.cellPhone}</td>
                 <td data-label="Email">${user.email}</td>
-                <td data-label="Zone">${user.zone}</td>
                 <td data-label="Role">${user.type}</td>
+                <td data-label="Zone">${user.zone}</td>                
                 <td data-label="Edit">
                     <span role="button" class="material-icons-sharp warning" onclick="updateUser(${user.id})">edit</span>
                 </td>
