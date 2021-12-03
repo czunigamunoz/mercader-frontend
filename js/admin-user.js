@@ -13,15 +13,69 @@ const typeUser = document.getElementById("type");
 
 // DOM ELEMENTS
 const modal = document.querySelector(".modal");
+const formModal = document.getElementById("formModal");
 
 // BUTTONS ====================================
 const btnCloseModal = document.getElementById("btnCloseModal");
 const btnAddUser = document.getElementById("btnAddUser");
-const btnRegister = document.getElementById("btnRegister");
+const btnSave = document.getElementById("btnSave");
 
 btnAddUser.addEventListener("click", () => modal.classList.add("modal--active"));
 
 btnCloseModal.addEventListener("click", () => modal.classList.remove("modal--active"));
+
+const modalUser = () => {
+    const {identification, name, address, cellPhone, email, password, zone, type} = getFieldsInfo();
+    formModal += 
+    `   
+    <div class="form__input">
+    <label for="identification">Identification</label>
+    <input type="text" name="identification" id="identification">
+    </div>
+
+    <div class="form__input">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name">
+    </div>
+
+    <div class="form__input">
+        <label for="address">Address</label>
+        <input type="text" name="address" id="address">
+    </div>
+
+    <div class="form__input">
+        <label for="phone">Phone</label>
+        <input type="text" name="phone" id="phone">
+    </div>
+
+    <div class="form__input">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email">
+    </div>
+
+    <div class="form__input">
+        <label for="password">Password</label>
+        <input type="text" name="password" id="password">
+    </div>
+
+    <div class="form__input">
+        <label for="zone">Zone</label>
+        <input type="text" name="zone" id="zone">
+    </div>
+
+    <div class="form__input">
+        <label for="type" data-label="Select rol">Select rol</label></label>
+        <select name="type" id="type">
+            <option value="">Select one option</option>
+            <option value="ADM">Administrator</option>
+            <option value="COORD">Coordinator</option>
+            <option value="ASE">Sales Advisor</option>
+        </select>
+    </div>
+
+    <button id="btnSave" type="button">Save</button>
+    `
+}
 
 const clearFields = () => {
     identificationUser.value = "";
@@ -34,7 +88,19 @@ const clearFields = () => {
     typeUser.value = "";
 }
 
-btnRegister.addEventListener("click", async () => {
+const getFieldsInfo = () => {
+    const identification = identificationUser.value;
+    const name = nameUser.value;
+    const address = addressUser.value;
+    const cellPhone = phoneUser.value;
+    const email = emailUser.value;
+    const password = passwordUser.value;
+    const zone = zoneUser.value;    
+    const type = typeUser.value;
+    return identification, name, address, cellPhone, email, password, zone, type;
+}
+
+btnSave.addEventListener("click", async () => {
     const identification = identificationUser.value;
     const name = nameUser.value;
     const address = addressUser.value;
@@ -84,7 +150,6 @@ btnRegister.addEventListener("click", async () => {
         zone,
         type
     }
-    console.log(JSON.stringify(data));
     const resp = await ajaxHandler.connectPost(`${URL}/new`, data);
     if (resp.id === null){
         swalHandler("!Error", "error", "It was not possible to create the account", true, "#DC143C");
@@ -92,42 +157,50 @@ btnRegister.addEventListener("click", async () => {
     }
     swalHandler("", "success", "Acount created successfully", false, "", 1500);
     clearFields();
+    getUsers();
 });
 
 const updateUser = (id) => {
-    console.log("update", id);
+    const {identification, name, address, cellPhone, email, password, zone, type} = getFieldsInfo();
+    console.log({identification, name, address, cellPhone, email, password, zone, type})
 }
 
-const deleteUser = (id) => {
-    console.log("delete", id);
+const deleteUser = async (id) => {
+    const isConfirmed = await swalHandlerConfirm();
+    if (!isConfirmed){
+        return;
+    }
+    const user = await ajaxHandler.connectDelete(`${URL}/${id}`);
+    getUsers();
+    swalHandler("", "success", "Acount eliminated successfully", false, "", 1500);
 }
 
 const getUsers = async () => {
     const users = await ajaxHandler.connectGet(`${URL}/all`);
-    if (users.length === 0) {
-        swalHandler("No users in database", "info", "", false, "#3085d6", 2000);
+    if (users?.length === 0 || users === null) {
+        swalHandler("No users in database", "warning", "", false, "#3085d6", 2000);
         return;
     }
     const table = document.getElementById("tableContent");
     table.innerHTML = "";
-    let row = document.createElement("tr");
     users.forEach(user => {
-        row = "";
-        row += `<td data-label="Identification">${user.identification}</td>
-            <td data-label="Name">${user.name}</td>
-            <td data-label="Address">${user.address}</td>
-            <td data-label="Phone">${user.cellPhone}</td>
-            <td data-label="Email">${user.email}</td>
-            <td data-label="Zone">${user.zone}</td>
-            <td data-label="Role">${user.role}</td>
-            <td data-label="Edit">
-                <span role="button" class="material-icons-sharp warning" onclick="updateUser(${user.id})">edit</span>
-            </td>
-            <td data-label="Delete">                                        
-                <span role="button" class="material-icons-sharp danger" onclick="deleteUser(${user.id})">delete</span>
-            </td>`;
-    });    
-    table.innerHTML = row;
+        table.innerHTML += `
+            <tr>
+                <td data-label="Identification">${user.identification}</td>
+                <td data-label="Name">${user.name}</td>
+                <td data-label="Address">${user.address}</td>
+                <td data-label="Phone">${user.cellPhone}</td>
+                <td data-label="Email">${user.email}</td>
+                <td data-label="Zone">${user.zone}</td>
+                <td data-label="Role">${user.role}</td>
+                <td data-label="Edit">
+                    <span role="button" class="material-icons-sharp warning" onclick="updateUser(${user.id})">edit</span>
+                </td>
+                <td data-label="Delete">                                        
+                    <span role="button" class="material-icons-sharp danger" onclick="deleteUser(${user.id})">delete</span>
+                </td>
+            </tr>`;
+    });
 }
 
 window.onload = getUsers();
