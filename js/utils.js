@@ -1,7 +1,17 @@
+/**
+ * Represents an AjaxRequest
+ * @version 1.0
+ * @author czm
+ */
 class AjaxRequestHandler{    
     constructor(){   
     }
 
+    /**
+     * function to handle get request
+     * @param {String} url 
+     * @returns request resolved or null
+     */
     connectGet = async (url) => {
         try {
             const resp = await $.ajax({
@@ -16,6 +26,12 @@ class AjaxRequestHandler{
         }      
     }
 
+    /**
+     * function to handle post request
+     * @param {String} url 
+     * @param {Object} data 
+     * @returns request resolved or null
+     */
     connectPost = async (url, data) => {
         try {
             const resp = await $.ajax({
@@ -32,6 +48,12 @@ class AjaxRequestHandler{
         }  
     }
 
+    /**
+     * function to handle put request
+     * @param {String} url 
+     * @param {Object} data 
+     * @returns request resolved or null
+     */
     connectUpdate = async (url, data) => {
         try {
             const resp = await $.ajax({
@@ -48,6 +70,11 @@ class AjaxRequestHandler{
         } 
     }
 
+    /**
+     * function to handle delete request
+     * @param {String} url 
+     * @returns request resolved or null
+     */
     connectDelete = async (url) => {
         try {
             const resp = await $.ajax({
@@ -63,9 +90,21 @@ class AjaxRequestHandler{
         }  
     }
 }
-
+/**
+ * AjaxRequestHandler object
+ */
 const ajaxHandler = new AjaxRequestHandler();
 
+/**
+ * Function to hanlde Swal modal
+ * @param {String} title 
+ * @param {String} icon 
+ * @param {String} text 
+ * @param {Boolean} showConfirmButton 
+ * @param {String} btnColor 
+ * @param {Number} timer 
+ * @returns Modal
+ */
 const swalHandler = (title, icon, text, showConfirmButton, btnColor, timer) => {
     return Swal.fire({
         title,
@@ -77,6 +116,10 @@ const swalHandler = (title, icon, text, showConfirmButton, btnColor, timer) => {
     });
 }
 
+/**
+ * function to handle decision modal
+ * @returns True if is confirmed or false
+ */
 const swalHandlerConfirm = () => {
     return Swal.fire({
         title: "Are you sure to proceed?",

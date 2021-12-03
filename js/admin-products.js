@@ -21,19 +21,31 @@ const btnCloseModal = document.getElementById("btnCloseModal");
 const btnAdd = document.getElementById("btnAddProduct");
 const btnSave = document.getElementById("btnSave");
 
+/**
+ * Function to active modal and set default value
+ */
 btnAdd.addEventListener("click", () => {
     categoruProduct.value = "Gadgets";
     modal.classList.add("modal--active")
 });
 
+/**
+ * Function to close modal, set product's id to null and clear all input fields
+ */
 btnCloseModal.addEventListener("click", () => {
     ID_PRODUCT = null;
     clearFields();
     modal.classList.remove("modal--active");
 });
 
-btnSave.addEventListener("click", () => saveUser());
+/**
+ * Add click listener to save button
+ */
+btnSave.addEventListener("click", () => saveProduct());
 
+/**
+ * Set empty all input fields
+ */
 const clearFields = () => {
     brandProduct.value = "";
     categoruProduct.value = "";
@@ -45,6 +57,10 @@ const clearFields = () => {
     photoProduct.value = "";
 }
 
+/**
+ * Manage all input fields to an object data
+ * @returns Product object
+ */
 const getFieldsInfo = () => {
     const product = {
         brand: brandProduct.value,
@@ -59,6 +75,10 @@ const getFieldsInfo = () => {
     return product;
 }
 
+/**
+ * Set all input fields from an object data
+ * @param {Product} product 
+ */
 const setFieldsInfo = (product) => {
     brandProduct.value = product.brand;
     categoruProduct.value = product.category;
@@ -70,7 +90,10 @@ const setFieldsInfo = (product) => {
     photoProduct.value = product.photography;
 }
 
-const saveUser = async () => {
+/**
+ * Save or Update product to database
+ */
+const saveProduct = async () => {
     const { brand, category, name, description, price, avaliability, quantity, photography } = getFieldsInfo();
 
     if (brand.length === 0 || category.length === 0 || name.length === 0 
@@ -128,6 +151,10 @@ const saveUser = async () => {
     modal.classList.remove("modal--active");
 }
 
+/**
+ * Function to update product
+ * @param {Integer} id 
+ */
 const updateProduct = async (id) => {
     const product = await ajaxHandler.connectGet(`${URL}/${id}`);
     setFieldsInfo(product);
@@ -135,6 +162,10 @@ const updateProduct = async (id) => {
     modal.classList.add("modal--active");
 }
 
+/**
+ * function to delete a product
+ * @param {Integer} id 
+ */
 const deleteProduct = async (id) => {
     const isConfirmed = await swalHandlerConfirm();
     if (!isConfirmed){
@@ -145,6 +176,9 @@ const deleteProduct = async (id) => {
     swalHandler("", "success", "Prodcut eliminated successfully", false, "", 1500);
 }
 
+/**
+ * Function to insert products from database to a table
+ */
 const getProducts = async () => {
     const products = await ajaxHandler.connectGet(`${URL}/all`);
     if (products?.length === 0 || products === null) {

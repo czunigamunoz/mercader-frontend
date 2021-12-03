@@ -5,6 +5,9 @@ const password = document.getElementById("loginPassword");
 const formInputs = document.querySelectorAll(".form__input");
 const btnLogin = document.getElementById("btnLogin");
 
+/**
+ * Function to move labels on top of inputs
+ */
 formInputs.forEach(function (inputs) {
     inputs.addEventListener("focus", function(e){
         e.target.nextElementSibling.classList.add("active");        
@@ -14,6 +17,9 @@ formInputs.forEach(function (inputs) {
     });
 });
 
+/**
+ * Function to validate input fields and redirect to admin page
+ */
 btnLogin.addEventListener("click", async () => {
     if (email.value.length === 0 || password.value.length === 0) {
         swalHandler("!Error", "error", "All fields are required", true, "#DC143C");

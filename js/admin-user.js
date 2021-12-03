@@ -20,16 +20,28 @@ const btnCloseModal = document.getElementById("btnCloseModal");
 const btnAddUser = document.getElementById("btnAddUser");
 const btnSave = document.getElementById("btnSave");
 
+/**
+ * Add listener to show modal
+ */
 btnAddUser.addEventListener("click", () => modal.classList.add("modal--active"));
 
+/**
+ * Close modal, set user's id to null and clear input fields
+ */
 btnCloseModal.addEventListener("click", () => {
     ID_USER = null;
     clearFields();
     modal.classList.remove("modal--active");
 });
 
+/**
+ * Add click listener to save button
+ */
 btnSave.addEventListener("click", () => saveUser());
 
+/**
+ * Set empty all input fields
+ */
 const clearFields = () => {
     identificationUser.value = "";
     nameUser.value = "";
@@ -41,6 +53,10 @@ const clearFields = () => {
     typeUser.value = "";
 }
 
+/**
+ * Manage all input fields to an object data
+ * @returns PUser object
+ */
 const getFieldsInfo = () => {
     const user = {
         identification: identificationUser.value,
@@ -55,6 +71,10 @@ const getFieldsInfo = () => {
     return user;
 }
 
+/**
+ * Set all input fields from an object data
+ * @param {User} user
+ */
 const setFieldsInfo = (user) => {
     identificationUser.value = user.identification;
     nameUser.value = user.name;
@@ -66,6 +86,9 @@ const setFieldsInfo = (user) => {
     typeUser.value = user.type;
 }
 
+/**
+ * Save or Update user to database
+ */
 const saveUser = async () => {
     const { identification, name, address, cellPhone, email, password, zone, type } = getFieldsInfo();
 
@@ -127,6 +150,10 @@ const saveUser = async () => {
     modal.classList.remove("modal--active");
 }
 
+/**
+ * Function to update user
+ * @param {Integer} id 
+ */
 const updateUser = async (id) => {
     const user = await ajaxHandler.connectGet(`${URL}/${id}`);
     setFieldsInfo(user);
@@ -134,6 +161,10 @@ const updateUser = async (id) => {
     modal.classList.add("modal--active");
 }
 
+/**
+ * function to delete a user
+ * @param {Integer} id 
+ */
 const deleteUser = async (id) => {
     const isConfirmed = await swalHandlerConfirm();
     if (!isConfirmed){
@@ -144,6 +175,9 @@ const deleteUser = async (id) => {
     swalHandler("", "success", "User eliminated successfully", false, "", 1500);
 }
 
+/**
+ * Function to insert users from database to a table
+ */
 const getUsers = async () => {
     const users = await ajaxHandler.connectGet(`${URL}/all`);
     if (users?.length === 0 || users === null) {
