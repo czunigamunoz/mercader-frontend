@@ -313,7 +313,8 @@ main .table__container {
   max-height: 90%;
   background-color: #fff;
   border-radius: 0.5rem;
-  padding: 3em 2.5em;
+  padding: 3em 2.5em;  
+  display: -ms-grid;
   display: grid;
   gap: 1em;
   place-items: center;
