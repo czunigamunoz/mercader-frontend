@@ -66,18 +66,19 @@
 
                 <div class="content">
 
-                    <div class="search-box">
+                    <!-- <div class="search-box">
                         <input type="search" id="search-box" placeholder="Search..." autocomplete="off">
-                    </div>
+                    </div> -->
 
 
-                    <button type="button" id="btnAddUser">Add User</button>
+                    <button type="button" id="btnAddProduct">Add Product</button>
 
                     <div class="table__container">
 
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>Id</th>
                                     <th>Brand</th>
                                     <th>Category</th>
                                     <th>Name</th>
@@ -94,40 +95,7 @@
                             <tbody class="table-content" id="tableContent">
 
                                 <tr>
-                                    <td data-label="Brand">GENIUS</td>
-                                    <td data-label="Category">MOUSE</td>
-                                    <td data-label="Name">MSUPER MOUSE</td>
-                                    <td data-label="Description">MOUSE PARA VIDEO GAMERS</td>
-                                    <td data-label="Price">250000</td>
-                                    <td data-label="Avaliability">true</td>
-                                    <td data-label="Quantity">10</td>
-                                    <td data-label="Photography"><img src="https://m.media-amazon.com/images/I/61UxfXTUyvL._AC_SL1500_.jpg" alt="art1"></td>
-                                    <td data-label="Edit">
-                                        <span class="material-icons-sharp warning">edit</span>
-                                    </td>
-                                    <td data-label="Delete">                                        
-                                        <span class="material-icons-sharp danger">delete</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td data-label="Brand">GENIUS</td>
-                                    <td data-label="Category">MOUSE</td>
-                                    <td data-label="Name">MSUPER MOUSE</td>
-                                    <td data-label="Description">MOUSE PARA VIDEO GAMERS</td>
-                                    <td data-label="Price">250000</td>
-                                    <td data-label="Avaliability">true</td>
-                                    <td data-label="Quantity">10</td>
-                                    <td data-label="Photography"><img src="https://m.media-amazon.com/images/I/61UxfXTUyvL._AC_SL1500_.jpg" alt="art1"></td>
-                                    <td data-label="Edit">
-                                        <span class="material-icons-sharp warning">edit</span>
-                                    </td>
-                                    <td data-label="Delete">                                        
-                                        <span class="material-icons-sharp danger">delete</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
+                                    <td data-label="Id">1</td>
                                     <td data-label="Brand">GENIUS</td>
                                     <td data-label="Category">MOUSE</td>
                                     <td data-label="Name">MSUPER MOUSE</td>
@@ -168,13 +136,18 @@
                 <span class="material-icons-sharp">close</span>
             </div>
 
-            <span class="material-icons-sharp icon_add">person_add_alt</span>
+            <span class="material-icons-sharp icon_add">add_circle_outline</span>
 
             <form>
 
                 <div class="form__input">
-                    <label for="identification">Identification</label>
-                    <input type="text" name="identification" id="identification">
+                    <label for="brand">Brand</label>
+                    <input type="text" name="brand" id="brand">
+                </div>
+
+                <div class="form__input">
+                    <label for="category">Category</label>
+                    <input type="text" name="category" id="category" value="Gadgets" disabled>
                 </div>
 
                 <div class="form__input">
@@ -183,36 +156,35 @@
                 </div>
 
                 <div class="form__input">
-                    <label for="address">Address</label>
-                    <input type="text" name="address" id="address">
+                    <label for="description">Description</label>
+                    <input type="description" name="description" id="description">
                 </div>
 
                 <div class="form__input">
-                    <label for="phone">Phone</label>
-                    <input type="text" name="phone" id="phone">
+                    <label for="price">Price</label>
+                    <input type="number" name="price" id="price">
                 </div>
 
                 <div class="form__input">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email">
-                </div>
-
-                <div class="form__input">
-                    <label for="zone">Zone</label>
-                    <input type="text" name="zone" id="zone">
-                </div>
-
-                <div class="form__input">
-                    <label for="role" data-label="Select rol">Select rol</label></label>
-                    <select name="role" id="role">
+                    <label for="avaliability">Select avaliability</label></label>
+                    <select name="avaliability" id="avaliability">
                         <option value="">Select one option</option>
-                        <option value="ADM">Administrator</option>
-                        <option value="COORD">Coordinator</option>
-                        <option value="ASE">Sales Advisor</option>
+                        <option value="true">YES</option>
+                        <option value="false">NO</option>
                     </select>
                 </div>
 
-                <button type="button">Register</button>
+                <div class="form__input">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity">
+                </div>
+
+                <div class="form__input">
+                    <label for="photography">Photography</label>
+                    <input type="text" name="photography" id="photography">
+                </div>
+
+                <button id="btnSave" type="button">Save</button>
                 
             </form>
 
@@ -220,8 +192,11 @@
 
     </div>
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/utils.js"></script>
     <script src="../js/admin.js"></script>
+    <script src="../js/admin-products.js"></script>
 
 </body>
 

@@ -225,7 +225,7 @@ main .search-box input {
 
 main .content button {
   margin-top: 2rem;
-  width: 6.5rem;
+  width: 8rem;
   position: relative;
   font-size: inherit;
   font-family: inherit;
@@ -330,7 +330,7 @@ main .table__container {
 }
 
 .icon_add {
-  font-size: 5rem;
+  font-size: 3rem;
 }
 
 .modal__container form {
