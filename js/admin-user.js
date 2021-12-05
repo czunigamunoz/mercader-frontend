@@ -95,7 +95,7 @@ const setFieldsInfo = (user) => {
  * @param {String} password 
  * @param {String} zone 
  * @param {String} type 
- * @returns 
+ * @returns Boolean
  */
 const validate = async (identification, name, address, cellPhone, email, password, zone, type) => {
     if (identification.length === 0 || name.length === 0 || address.length === 0 || cellPhone.length === 0 

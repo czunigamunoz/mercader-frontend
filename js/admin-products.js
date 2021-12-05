@@ -89,6 +89,17 @@ const setFieldsInfo = (product) => {
     photoProduct.value = product.photography;
 }
 
+/**
+ * @param {String} brand 
+ * @param {String} category 
+ * @param {String} name 
+ * @param {String} description 
+ * @param {Number} price 
+ * @param {String} availability 
+ * @param {Number} quantity 
+ * @param {String} photography 
+ * @returns Boolean
+ */
 const validate = (brand, category, name, description, price, availability, quantity, photography) => {
     if (brand.length === 0 || category.length === 0 || name.length === 0 
         || description.length === 0 || price.length === 0 || availability.length === 0 
@@ -120,7 +131,6 @@ const validate = (brand, category, name, description, price, availability, quant
  */
 const saveProduct = async () => {
     const { brand, category, name, description, price, availability, quantity, photography } = getFieldsInfo();
-
     const areValid = validate(brand, category, name, description, price, availability, quantity, photography);
     if (!areValid) {
         return;
