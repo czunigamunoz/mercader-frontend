@@ -3,7 +3,6 @@ const URL = "http://localhost:8080/api/gadget";
 let ID_PRODUCT = null;
 
 // USER INFORMATION ==========================
-// const idProduct = document.getElementById("id");
 const brandProduct = document.getElementById("brand");
 const categoryProduct = document.getElementById("category");
 const nameProduct = document.getElementById("name");

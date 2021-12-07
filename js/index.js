@@ -34,9 +34,25 @@ btnLogin.addEventListener("click", async () => {
         swalHandler("!Error", "error", "There is no user with these credentials", true, "#DC143C");
         return;
     }
-    swalHandler("", "success", `Welcome ${resp.name}`, false, "", 1500);
+    sessionStorage.setItem("ref", resp.id);
+    swalHandler("", "success", `Welcome ${resp.name}`, false, "", 2000);
+    console.log(resp.type === "ASE");
+    if (resp.type === "ASE"){
+        setTimeout(() => {
+            window.location.href = "../pages/ase-panel.html";
+            return;
+        }, 2000);
+        return;
+    }
+    if (resp.type === "COORD"){
+        setTimeout(() => {
+            window.location.href = "../pages/coord-panel.html";
+            return;
+        }, 2000);
+        return;
+    }
     setTimeout(() => {
         window.location.href = "../pages/admin.html";
         return;
-    }, 1500);    
+    }, 2000);    
 });

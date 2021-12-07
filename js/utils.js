@@ -15,7 +15,7 @@ class AjaxRequestHandler{
     connectGet = async (url) => {
         try {
             const resp = await $.ajax({
-                url: url,
+                url,
                 type: "GET",
                 dataType: "json"
             });

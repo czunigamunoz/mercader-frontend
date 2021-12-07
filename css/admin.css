@@ -26,9 +26,16 @@
   box-sizing: border-box;
 }
 
+html {
+  height: -webkit-fill-available;
+  height: fill-available;
+}
+
 body {
   font-family: "Lato", sans-serif;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: fill-available;
   width: 100vw;
   overflow-x: hidden;
   background-color: var(--color-secondary);
@@ -104,7 +111,8 @@ p {
     cursor: pointer;
 }
 
-.container {
+.container {  
+  display: -ms-grid;
   display: grid;
   width: 96%;
   margin: 0 auto;
@@ -142,12 +150,21 @@ aside .close {
   display: none;
 }
 
+.info-sell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 2em;
+  margin-top: 2em;
+}
+
 /* ==================== SIDEBAR ============================ */
 
 aside .sidebar {
   display: flex;
   flex-direction: column;
-  height: 86vh;
+  height: 74vh;
   position: relative;
   top: 3rem;
 }
@@ -388,6 +405,10 @@ main .table__container {
         display: none;
     }
 
+    .info-sell {
+      display: none;
+    }
+
     aside .sidebar h3 {
         display: none;
     }
@@ -511,6 +532,10 @@ main .table__container {
     aside .logo h2 {
         display: inline;
     }
+
+    .info-sell {
+      display: flex;
+    } 
 
     aside .sidebar h3 {
         display: inline;
