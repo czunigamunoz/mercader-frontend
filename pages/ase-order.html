@@ -74,8 +74,13 @@
                         <input type="search" id="search-box" placeholder="Search..." autocomplete="off">
                     </div> -->
 
+                    <div class="btn__container">
 
-                    <button type="button" id="btnAddProduct">Add Product</button>
+                        <button type="button" id="btnAddProduct">Add Product</button>
+
+                        <button type="button" id="btnSendOrder">Send Order</button>
+
+                    </div>                    
 
                     <div class="table__container">
 
@@ -92,9 +97,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody class="table-content" id="tableContent">
-
-                            </tbody>
+                            <tbody class="table-content" id="tableContent"></tbody>
 
                         </table>
 
@@ -141,6 +144,7 @@
     <!-------------- END MODAL ------------------------>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/utils.js"></script>
     <script src="../js/admin.js"></script>
     <script src="../js/ase-order.js"></script>

@@ -35,24 +35,24 @@ btnLogin.addEventListener("click", async () => {
         return;
     }
     sessionStorage.setItem("ref", resp.id);
-    swalHandler("", "success", `Welcome ${resp.name}`, false, "", 2000);
+    swalHandler("", "success", `Welcome ${resp.name}`, false, "", 1500);
     console.log(resp.type === "ASE");
     if (resp.type === "ASE"){
         setTimeout(() => {
             window.location.href = "../pages/ase-panel.html";
             return;
-        }, 2000);
+        }, 1500);
         return;
     }
     if (resp.type === "COORD"){
         setTimeout(() => {
             window.location.href = "../pages/coord-panel.html";
             return;
-        }, 2000);
+        }, 1500);
         return;
     }
     setTimeout(() => {
         window.location.href = "../pages/admin.html";
         return;
-    }, 2000);    
+    }, 1500);    
 });

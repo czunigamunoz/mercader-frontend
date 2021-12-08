@@ -159,6 +159,19 @@ aside .close {
   margin-top: 2em;
 }
 
+.btn__container button:last-child {
+  margin-left: 1em;
+  background-color: transparent;
+  border: 1px solid var(--color-blue-dark);
+  color: var(--color-blue-dark);
+  cursor: pointer;
+}
+
+.btn__container button:last-child:hover{
+  background-color: var(--color-blue-dark);
+  color: var(--color-light);
+}
+
 /* ==================== SIDEBAR ============================ */
 
 aside .sidebar {
@@ -384,7 +397,7 @@ main .table__container {
   cursor: pointer;
 }
 
-/* ==================== MEDIA QUERRIES ============================ */
+/* ==================== MEDIA QUERIES ============================ */
 
 @media screen and (max-width: 1200px) {
     .container {

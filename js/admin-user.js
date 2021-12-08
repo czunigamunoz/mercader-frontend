@@ -1,5 +1,4 @@
 // GLOBAL VARIABLES
-const URL = "http://localhost:8080/api/user";
 let ID_USER = null;
 
 // USER INFORMATION ==========================
@@ -119,9 +118,9 @@ const validate = async (identification, name, address, cellPhone, email, passwor
         swalHandler("!Error", "error", "assword must not exceed 50 characters", true, "#DC143C");
         return false;
     }
-    const isEmail = await ajaxHandler.connectGet(`${URL}/emailexist/${email}`);
+    const isEmail = await ajaxHandler.connectGet(`${URL_USER}/emailexist/${email}`);
     if (ID_USER !== null) {
-        const user = await ajaxHandler.connectGet(`${URL}/${ID_USER}`);
+        const user = await ajaxHandler.connectGet(`${URL_USER}/${ID_USER}`);
         if (user.email === email) {
             return true;
         }
@@ -153,7 +152,7 @@ const saveUser = async () => {
         zone,
         type
     }
-    const resp = !!ID_USER ? await ajaxHandler.connectUpdate(`${URL}/update`, data) : await ajaxHandler.connectPost(`${URL}/new`, data);
+    const resp = !!ID_USER ? await ajaxHandler.connectUpdate(`${URL_USER}/update`, data) : await ajaxHandler.connectPost(`${URL_USER}/new`, data);
     if (resp.id === null){
         swalHandler("!Error", "error", "It was not possible to create user", true, "#DC143C");
         return;
@@ -168,10 +167,10 @@ const saveUser = async () => {
 
 /**
  * Function to update user
- * @param {Integer} id 
+ * @param {Number} id
  */
 const updateUser = async (id) => {
-    const user = await ajaxHandler.connectGet(`${URL}/${id}`);
+    const user = await ajaxHandler.connectGet(`${URL_USER}/${id}`);
     setFieldsInfo(user);
     ID_USER = id;    
     modal.classList.add("modal--active");
@@ -179,14 +178,14 @@ const updateUser = async (id) => {
 
 /**
  * function to delete a user
- * @param {Integer} id 
+ * @param {Number} id
  */
 const deleteUser = async (id) => {
     const isConfirmed = await swalHandlerConfirm();
     if (!isConfirmed){
         return;
     }
-    await ajaxHandler.connectDelete(`${URL}/${id}`);    
+    await ajaxHandler.connectDelete(`${URL_USER}/${id}`);    
     swalHandler("", "success", "User eliminated successfully", false, "", 1500);
     await getUsers();
 }
@@ -195,13 +194,15 @@ const deleteUser = async (id) => {
  * Function to insert users from database to a table
  */
 const getUsers = async () => {
-    const users = await ajaxHandler.connectGet(`${URL}/all`);
+    const users = await ajaxHandler.connectGet(`${URL_USER}/all`);
     if (users?.length > 0 || users !== null) {
         const table = document.getElementById("tableContent");
-        table.innerHTML = "";
+        const fragment = document.createDocumentFragment();
+
         users.forEach(user => {
-            table.innerHTML += `
-                <tr>
+            const row = document.createElement("tr");
+            row.innerHTML +=
+                `
                     <td data-label="Identification">${user.identification}</td>
                     <td data-label="Name">${user.name}</td>
                     <td data-label="Email">${user.email}</td>
@@ -213,8 +214,11 @@ const getUsers = async () => {
                     <td data-label="Delete">                                        
                         <span role="button" class="material-icons-sharp danger" onclick="deleteUser(${user.id})">delete</span>
                     </td>
-                </tr>`;
-        });       
+                `;
+            fragment.appendChild(row);
+        });
+        table.innerHTML = "";
+        table.appendChild(fragment);
     }
 }
 

@@ -1,3 +1,8 @@
+// GLOBAL VARIABLES
+const URL_ORDER = "http://localhost:8080/api/order";
+const URL_PROD = "http://localhost:8080/api/gadget";
+const URL_USER = "http://localhost:8080/api/user";
+
 /**
  * Represents an AjaxRequest
  * @version 1.0
@@ -95,8 +100,55 @@ class AjaxRequestHandler{
  */
 const ajaxHandler = new AjaxRequestHandler();
 
+class Order {
+    products = [];
+    quantity = {};
+    productsFormat = {};
+    constructor(){} 
+
+    getProducts() {
+        return this.products;
+    }
+
+    getAllQuantity() {
+        return this.quantity;
+    }
+
+    getQuantity(idProduct) {
+        return this.quantity[idProduct];
+    }
+
+    setQuantity(idProduct, quantity) {
+        this.quantity[idProduct] = quantity;
+    }
+
+    getProductsFormatted(){
+        return this.productsFormat;
+    }
+
+    addProduct(product){
+        this.products.push(product);
+        this.productsFormat[product.id] = product;
+        this.quantity[product.id] = null;
+    }
+
+    deleteProduct(productId){
+        this.products = this.products.filter(p => p.id !== productId);
+        delete this.productsFormat[productId];
+        delete this.quantity[productId];
+    }
+
+    deleteAll(){
+        this.products = [];
+        this.quantity = {};
+        this.productsFormat = {};
+    }
+}
+
+const productOrder = new Order();
+
 /**
- * Function to hanlde Swal modal
+ * Function to handle Swal modal
  * @param {String} title 
  * @param {String} icon 
  * @param {String} text 
@@ -130,9 +182,6 @@ const swalHandlerConfirm = () => {
         cancelButtonColor: '#3085d6',
         confirmButtonText: "Yes, I'm sure"
     }).then((result) => {
-        if (result.isConfirmed) {
-            return true;
-        }
-        return false;
+        return !!result.isConfirmed;
     });
 }

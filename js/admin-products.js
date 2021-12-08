@@ -75,7 +75,7 @@ const getFieldsInfo = () => {
 
 /**
  * Set all input fields from an object data
- * @param {Product} product 
+ * @param {Object} product
  */
 const setFieldsInfo = (product) => {
     brandProduct.value = product.brand;
@@ -145,7 +145,7 @@ const saveProduct = async () => {
         quantity,
         photography
     }
-    const resp = !!ID_PRODUCT ? await ajaxHandler.connectUpdate(`${URL}/update`, data) : await ajaxHandler.connectPost(`${URL}/new`, data)
+    const resp = !!ID_PRODUCT ? await ajaxHandler.connectUpdate(`${URL_PROD}/update`, data) : await ajaxHandler.connectPost(`${URL_PROD}/new`, data)
     if (resp.id === null){
         swalHandler("!Error", "error", "It was not possible to create product", true, "#DC143C");
         return;
@@ -160,10 +160,10 @@ const saveProduct = async () => {
 
 /**
  * Function to update product
- * @param {Integer} id 
+ * @param {Number} id
  */
 const updateProduct = async (id) => {
-    const product = await ajaxHandler.connectGet(`${URL}/${id}`);
+    const product = await ajaxHandler.connectGet(`${URL_PROD}/${id}`);
     setFieldsInfo(product);
     ID_PRODUCT = id;    
     modal.classList.add("modal--active");
@@ -171,14 +171,14 @@ const updateProduct = async (id) => {
 
 /**
  * function to delete a product
- * @param {Integer} id 
+ * @param {Number} id
  */
 const deleteProduct = async (id) => {
     const isConfirmed = await swalHandlerConfirm();
     if (!isConfirmed){
         return;
     }
-    await ajaxHandler.connectDelete(`${URL}/${id}`);
+    await ajaxHandler.connectDelete(`${URL_PROD}/${id}`);
     swalHandler("", "success", "Product eliminated successfully", false, "", 1500);
     await getProducts();
 }
@@ -187,13 +187,14 @@ const deleteProduct = async (id) => {
  * Function to insert products from database to a table
  */
 const getProducts = async () => {
-    const products = await ajaxHandler.connectGet(`${URL}/all`);
+    const products = await ajaxHandler.connectGet(`${URL_PROD}/all`);
     if (products?.length > 0 || products !== null) {
         const table = document.getElementById("tableContent");
-        table.innerHTML = "";
+        const fragment = document.createDocumentFragment();
         products.forEach(product => {
-            table.innerHTML += `
-                <tr>
+            const row = document.createElement("tr");
+            row.innerHTML +=
+                `
                     <td data-label="Id">${product.id}</td>
                     <td data-label="Brand">${product.brand}</td>
                     <td data-label="Category">${product.category}</td>
@@ -209,9 +210,11 @@ const getProducts = async () => {
                     <td data-label="Delete">                                        
                         <span role="button" class="material-icons-sharp danger" onclick="deleteProduct(${product.id})">delete</span>
                     </td>
-                </tr>
                 `;
-        });        
+            fragment.appendChild(row);
+        });
+        table.innerHTML = "";
+        table.appendChild(fragment);
     }
 }
 
