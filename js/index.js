@@ -1,5 +1,4 @@
 /* GLOBAL VARIABLES */
-const URL = "http://localhost:8080/api/user";
 const email = document.getElementById("loginEmail");
 const password = document.getElementById("loginPassword");
 const formInputs = document.querySelectorAll(".form__input");
@@ -29,30 +28,26 @@ btnLogin.addEventListener("click", async () => {
         swalHandler("!Error", "error", "Please enter a valid email address", true, "#DC143C");
         return;
     }
-    const resp = await ajaxHandler.connectGet(`${URL}/${email.value}/${password.value}`);
+    const resp = await ajaxHandler.connectGet(`${URL_USER}/${email.value}/${password.value}`);
     if (resp.id === null){
         swalHandler("!Error", "error", "There is no user with these credentials", true, "#DC143C");
         return;
     }
     sessionStorage.setItem("ref", resp.id);
     swalHandler("", "success", `Welcome ${resp.name}`, false, "", 1500);
-    console.log(resp.type === "ASE");
     if (resp.type === "ASE"){
         setTimeout(() => {
             window.location.href = "../pages/ase-panel.html";
-            return;
         }, 1500);
         return;
     }
     if (resp.type === "COORD"){
         setTimeout(() => {
             window.location.href = "../pages/coord-panel.html";
-            return;
         }, 1500);
         return;
     }
     setTimeout(() => {
         window.location.href = "../pages/admin.html";
-        return;
     }, 1500);    
 });

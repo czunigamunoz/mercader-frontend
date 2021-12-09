@@ -14,10 +14,17 @@ btnCloseModal.addEventListener("click", () => {
     modal.classList.remove("modal--active");
 });
 
+/**
+ * Function to load starting
+ */
 document.addEventListener("DOMContentLoaded", async () => {        
     await loadProducts(); 
 });
 
+/**
+ * Function to load orders from database by zone
+ * @returns {Promise<void>}
+ */
 const loadProducts = async () => {    
     const orders = await ajaxHandler.connectGet(`${URL_ORDER}/zona/${zone}`);
     if (orders?.length > 0) {    
@@ -42,6 +49,11 @@ const loadProducts = async () => {
     }    
 }
 
+/**
+ * Function to save order's status on datbaase
+ * @param {Number} orderId
+ * @returns {Promise<void>}
+ */
 const saveStatusOrder = async (orderId) => {
     const statusOrder = document.getElementById("statusOrder").value;
     if (statusOrder === "") {
@@ -49,7 +61,7 @@ const saveStatusOrder = async (orderId) => {
         return;
     }
     const order = await ajaxHandler.connectGet(`${URL_ORDER}/${orderId}`);
-    data = {
+    const data = {
         id: order.id,
         registerDay: order.registerDay,
         status: statusOrder,
@@ -67,6 +79,10 @@ const saveStatusOrder = async (orderId) => {
     modal.classList.remove("modal--active");
 }
 
+/**
+ * Function to set order information and show on top table
+ * @param {Object} order
+ */
 const paintTableTop = (order) => {
     const tableTop = document.getElementById("tableTop");
     tableTop.innerHTML = `
@@ -89,6 +105,10 @@ const paintTableTop = (order) => {
         `
 }
 
+/**
+ * Function to set order information and show on bottom table
+ * @param {Object} order
+ */
 const painTableBottom = (order) => {
     const tableBottom = document.getElementById("tableBottom");
     const fragment = document.createDocumentFragment();
@@ -112,6 +132,11 @@ const painTableBottom = (order) => {
     tableBottom.appendChild(fragment);
 }
 
+/**
+ * Function to show modal and get order info from database
+ * @param {Number} orderId
+ * @returns {Promise<void>}
+ */
 const getOrderDetails = async (orderId) => {
     modal.classList.add("modal--active");
     const order = await ajaxHandler.connectGet(`${URL_ORDER}/${orderId}`);

@@ -100,44 +100,82 @@ class AjaxRequestHandler{
  */
 const ajaxHandler = new AjaxRequestHandler();
 
+/**
+ * Represents an order
+ * @version 1.0
+ * @author czm
+ */
 class Order {
     products = [];
     quantity = {};
     productsFormat = {};
-    constructor(){} 
+    constructor(){}
 
+    /**
+     * Function to send order's products
+     * @returns {Array}
+     */
     getProducts() {
         return this.products;
     }
 
+    /**
+     * Function to send order's quantities
+     * @returns {Object}
+     */
     getAllQuantity() {
         return this.quantity;
     }
 
+    /**
+     * Function to send quantity from a product
+     * @param idProduct
+     * @returns {*}
+     */
     getQuantity(idProduct) {
         return this.quantity[idProduct];
     }
 
+    /**
+     * Function to set product's quantity
+     * @param {Number} idProduct
+     * @param {Number} quantity
+     */
     setQuantity(idProduct, quantity) {
         this.quantity[idProduct] = quantity;
     }
 
+    /**
+     * Function to send products as object
+     * @returns {Object}
+     */
     getProductsFormatted(){
         return this.productsFormat;
     }
 
+    /**
+     * Function to add product to order
+     * @param product
+     */
     addProduct(product){
         this.products.push(product);
         this.productsFormat[product.id] = product;
         this.quantity[product.id] = null;
     }
 
+    /**
+     * Function to delete a order's product
+     * @param {Number} productId
+     */
     deleteProduct(productId){
         this.products = this.products.filter(p => p.id !== productId);
         delete this.productsFormat[productId];
         delete this.quantity[productId];
     }
 
+    /**
+     * Delete all products from order
+     */
     deleteAll(){
         this.products = [];
         this.quantity = {};
@@ -145,6 +183,10 @@ class Order {
     }
 }
 
+/**
+ * object from Order class
+ * @type {Order}
+ */
 const productOrder = new Order();
 
 /**

@@ -28,6 +28,10 @@ btnMenu.addEventListener("click", () => sideMenu.style.display = "block");
  */
 btnClose.addEventListener("click", () => sideMenu.style.display = "none");
 
+/**
+ * Function to set profile data from user on side menu
+ * @returns {Promise<void>}
+ */
 const profile = async () => {
     const userId = sessionStorage.getItem("ref");
     const userProfile = await ajaxHandler.connectGet(`${URL_USER}/${userId}`);
@@ -40,4 +44,7 @@ const profile = async () => {
     sessionStorage.setItem("zone", userProfile.zone);
 }
 
+/**
+ * Load profile function on load
+ */
 document.addEventListener("DOMContentLoaded", () => profile())

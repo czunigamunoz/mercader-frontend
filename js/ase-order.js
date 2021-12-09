@@ -34,8 +34,15 @@ document.addEventListener("DOMContentLoaded", async () => {
  */
 btnAddProduct.addEventListener("click", async () => await loadProducts());
 
+/**
+ * Function to send data order saving on database
+ */
 btnSendOrder.addEventListener("click", async () => makeOrder());
 
+/**
+ * Function to filter database products that are not in order products already
+ * @returns {*[]}
+ */
 const filterProducts = () => {
     const prodInOrder = productOrder.getProducts();
     const productsFilter = [];
@@ -52,6 +59,10 @@ const filterProducts = () => {
     return productsFilter;
 }
 
+/**
+ * Function to show products from database but not in order list already
+ * @returns {Promise<void>}
+ */
 const loadProducts = async () => {    
     if (PRODUCTS?.length > 0) {    
         const products = filterProducts().length > 0 ? 
@@ -77,6 +88,10 @@ const loadProducts = async () => {
     }    
 }
 
+/**
+ * Function to add a product to order's product
+ * @param {Number} productId
+ */
 const addProduct = (productId) => {
     productOrder.addProduct(
         PRODUCTS.filter(p => p.id === productId)[0]
@@ -85,15 +100,27 @@ const addProduct = (productId) => {
     orderProducts();
 }
 
+/**
+ * Function to update quantity from a product
+ * @param {Number} productId
+ * @param {Number} quantity
+ */
 const updateProdQuantity = (productId, quantity) => {
     productOrder.setQuantity(productId, Number(quantity));
 }
 
+/**
+ * Function to delete a product from order list
+ * @param {Number} productId
+ */
 const deleteProduct = (productId) => {
     productOrder.deleteProduct(productId);
     orderProducts();
 }
 
+/**
+ * Function to show order's products in a table
+ */
 const orderProducts = () => {
     const products = productOrder.getProducts();
     const tableOrder = document.getElementById("tableContent");
@@ -129,8 +156,8 @@ const orderProducts = () => {
 }
 
 /**
- * Funcion que obtiene la fecha actual del sistema
- * @returns Fecha en formato yyyy-mm-dd
+ * Function to get current date
+ * @returns String
  */
 const getCurrentDate = () => {
     const offset = new Date().getTimezoneOffset();
@@ -138,11 +165,19 @@ const getCurrentDate = () => {
     return date.toISOString().split("T")[0];
 }
 
+/**
+ * Function to validate all fields are not 0 (zero)
+ * @returns Boolean
+ */
 const validateQuantity = () => {
     const quantities = productOrder.getAllQuantity();
     return Object.values(quantities).every(value => value !== null);
 }
 
+/**
+ * Function to save order on database and finally delete all products from order object
+ * @returns {Promise<void>}
+ */
 const makeOrder = async () => {
     const table = document.getElementById("tableContent");
     if (table.innerHTML === "") {
