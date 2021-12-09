@@ -37,6 +37,7 @@ const profile = async () => {
     userEmail.textContent = userProfile.email;
     userType.textContent = userProfile.type === "ASE" ? "Asesor Comercial" : userProfile.type === "COORD" ? "Coordinador de Zona" : "Administrador";
     userZone.textContent = userProfile.zone;
+    sessionStorage.setItem("zone", userProfile.zone);
 }
 
 document.addEventListener("DOMContentLoaded", () => profile())

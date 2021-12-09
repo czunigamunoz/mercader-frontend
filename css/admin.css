@@ -352,6 +352,10 @@ main .table__container {
   position: relative;
 }
 
+.modal__coord-order {
+  max-width: 55.5rem;
+}
+
 .modal__close {
   position: absolute;
   top: 1em;

@@ -1,12 +1,12 @@
 let PRODUCTS = null;
-// USER INFORMATION ==========================
-const tablaProduct = document.getElementById("tablaProduct");
+// BUTTONS ==========================
 const btnAddProduct = document.getElementById("btnAddProduct");
 const btnCloseModal = document.getElementById("btnCloseModal");
 const btnSendOrder = document.getElementById("btnSendOrder");
 
 // DOM ELEMENTS
 const modal = document.querySelector(".modal");
+const tablaProduct = document.getElementById("tablaProduct");
 
 /**
  * Function to active modal and set default value
@@ -59,7 +59,7 @@ const loadProducts = async () => {
                             productOrder.getProducts().length !== PRODUCTS.length ? PRODUCTS : [];
         const table = document.getElementById("tablaProduct");
         const fragment = document.createDocumentFragment(); 
-        products.map(product => {
+        products.forEach(product => {
             const row = document.createElement("tr");
             row.innerHTML =  `           
                     <td data-label="Category">${product.brand}</td>
@@ -99,7 +99,7 @@ const orderProducts = () => {
     const tableOrder = document.getElementById("tableContent");
     if (products?.length > 0) {        
         const fragment = document.createDocumentFragment();
-        products.map(product => {
+        products.forEach(product => {
             const row = document.createElement("tr");
             row.innerHTML =  `           
                     <td data-label="Name">${product.name}</td>
